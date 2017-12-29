@@ -1,0 +1,7 @@
+{
+  "packagerPort": 8081,
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://f2-g5v.nguyendev.nguyenit.exp.direct",
+  "packagerNgrokUrl": "https://packager.f2-g5v.nguyendev.nguyenit.exp.direct",
+  "ngrokPid": 13604
+}
