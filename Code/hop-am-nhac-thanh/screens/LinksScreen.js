@@ -4,7 +4,6 @@ import {Container, Header, Tab, Tabs} from 'native-base';
 import { ScrollView, StyleSheet,View,Text } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import listSongStyle from '../styles/listsong';
-
 export default class LinksScreen extends React.Component {
   static navigationOptions = {
     title: 'Bài hát',

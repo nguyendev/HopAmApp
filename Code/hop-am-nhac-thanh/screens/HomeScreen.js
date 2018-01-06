@@ -15,7 +15,9 @@ import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import listSongStyle from '../styles/listsong';   
 import {Container, Header, Item, Input, Button} from 'native-base';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import SingleSong from '../screens/SingSong';
+
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Hợp Âm Nhạc Thánh',
@@ -54,16 +56,23 @@ getDataWithSearch = async (text) => {
   
 };
 renderPost = ({
-    id,
     Name,
-    Lyric
+    Lyric,
+    Slug,
+    VersionSlug
   }, i) => {
-  return (
-    <View key={id} style={listSongStyle.getItem}>
-    
-      <Text style ={listSongStyle.getTitleText}>{Name}</Text>
+  const { navigate } = this.props.navigation;
 
+  return (
+    <View style={listSongStyle.getItem}>
+      <TouchableOpacity
+              onPress={() =>
+          navigate('SingleSong', { name: Name, slug: Slug, versionSlug: VersionSlug })}>
+      <Text style ={listSongStyle.getTitleText}>{Name}</Text>
+      {/* <Text style ={listSongStyle.getTitleText}>{Slug}</Text>
+      <Text style ={listSongStyle.getTitleText}>{VersionSlug}</Text> */}
       <Text style ={listSongStyle.getLyricShortText}>{Lyric}</Text>
+      </TouchableOpacity>
     </View>
   );
 };
