@@ -15,7 +15,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "bundleIdentifier": "com.nguyenit.hopamnhacthanh",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.nguyenit.hopamnhacthanh"
     }
   }
 }

@@ -6,8 +6,9 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 import Colors from '../constants/Colors';
 
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import ListSongScreen from '../screens/ListSongScreen';
+import ToolsScreen from '../screens/ToolsScreen';
 
 export default TabNavigator(
   {
@@ -24,13 +25,26 @@ export default TabNavigator(
         ),
       },
     },
-    Links: {
-      screen: LinksScreen,
+    ListSong: {
+      screen: ListSongScreen,
       navigationOptions: {
         tabBarLabel: 'Bài hát',
         tabBarIcon: ({ tintColor, focused }) => (
           <Ionicons
             name={focused ? 'ios-musical-notes' : 'ios-musical-notes-outline'}
+            size={26}
+            style={{ color: tintColor }}
+          />
+        ),
+      },
+    },
+    Tools: {
+      screen: ToolsScreen,
+      navigationOptions: {
+        tabBarLabel: 'Tính năng',
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Ionicons
+            name={focused ? 'ios-construct' : 'ios-construct-outline'}
             size={26}
             style={{ color: tintColor }}
           />
