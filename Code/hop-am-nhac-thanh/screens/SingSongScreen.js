@@ -21,7 +21,7 @@ import {WebView, StyleSheet, Platform} from 'react-native';
 //import Icon from 'react-native-vector-icons';
 
 
-export default class SingleSong extends React.Component {
+export default class SingleSongScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     title: navigation.state.params.name,
     headerTitleStyle: {

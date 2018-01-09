@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container, Header, Tab, Tabs} from 'native-base';
 
-import { ScrollView, StyleSheet,View,Text } from 'react-native';
+import { ScrollView, StyleSheet,View,Text, TouchableOpacity } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import listSongStyle from '../styles/listsong';
 export default class ListSongScreen extends React.Component {
@@ -15,6 +15,7 @@ export default class ListSongScreen extends React.Component {
       error: false,
       songNews: [],
       songPopulars: [],
+      albums: [],
     };
   }
 componentWillMount = async () => {
@@ -40,21 +41,63 @@ componentWillMount = async () => {
   } catch (e) {
     this.setState ({loading: false, error: true});
   }
+  
+  try {
+    const response = await fetch (
+      'https://hopamnhacthanh.net/api/Album/NGUYENIT/getList'
+    );
+    const albums = await response.json ();
+
+    this.setState ({loading: false, albums});
+  } catch (e) {
+    this.setState ({loading: false, error: true});
+  }
 };
 
-renderPost = ({id, Name, Lyric}, i) => {
+renderPost = ({
+    Name,
+    Lyric,
+    Slug,
+    VersionSlug
+  }, i) => {
+  const {navigate} = this.props.navigation;
+
   return (
-    <View key={id} style={listSongStyle.getItem}>
+    <View key={i} style={listSongStyle.getItem}>
 
-      <Text style={listSongStyle.getTitleText}>{Name}</Text>
+      <TouchableOpacity
+        onPress={() =>
+          navigate ('SingleSong', {name: Name, slug: Slug, versionSlug: VersionSlug})}>
+        <Text style={listSongStyle.getTitleText}>{Name}</Text>
+        {/* <Text style ={listSongStyle.getTitleText}>{Slug}</Text>
+            <Text style ={listSongStyle.getTitleText}>{VersionSlug}</Text> */}
+        <Text style={listSongStyle.getLyricShortText}>{Lyric}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+renderAlbum = ({Name, Slug}, i) => {
+  const {navigate} = this.props.navigation;
 
-      <Text style={listSongStyle.getLyricShortText}>{Lyric}</Text>
+  return (
+    <View key={i} style={listSongStyle.getItem}>
+
+      <TouchableOpacity
+        onPress={() =>
+          navigate ('SongInAlbum', {
+            name: Name,
+            slug: Slug,
+          })}
+      >
+        <Text style={listSongStyle.getTitleText}>{Name}</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
+
   render() {
-    const {songNews,songPopulars, loading, error} = this.state;
+    const {songNews,songPopulars, albums, loading, error} = this.state;
 
     return (
       <Container>
@@ -74,8 +117,14 @@ renderPost = ({id, Name, Lyric}, i) => {
               {songPopulars.map (this.renderPost)}
             </ScrollView>
           </Tab>
-          <Tab heading="Album"></Tab>
-          <Tab heading="Ca sỹ"></Tab>
+          <Tab heading="Album">
+            <ScrollView
+              style={listSongStyle.container}
+              contentContainerStyle={listSongStyle.contentContainer}>
+              {albums.map (this.renderAlbum)}
+            </ScrollView>
+          </Tab>
+          {/* <Tab heading="Ca sỹ"></Tab> */}
         </Tabs>
 
       </Container>

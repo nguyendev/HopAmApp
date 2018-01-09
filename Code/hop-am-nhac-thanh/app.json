@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Hợp Âm Nhạc Thánh",
-    "description": "A very interesting project.",
+    "description": "Thư viện hợp hợp âm, sheet, audio, video bài hát Cơ Đốc",
     "slug": "hop-am-nhac-thanh",
     "privacy": "public",
     "sdkVersion": "24.0.0",

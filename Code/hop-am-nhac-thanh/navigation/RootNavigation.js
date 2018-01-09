@@ -3,8 +3,11 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
-import  SingleSong from '../screens/SingSong';
+import  SingleSong from '../screens/SingSongScreen';
+import SongInAlbum from '../screens/SongInAlbumScreen';
+
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
+import SearchAdvanced from '../screens/SearchAdvancedScreen';
 
 const RootStackNavigator = StackNavigator(
   {
@@ -13,7 +16,13 @@ const RootStackNavigator = StackNavigator(
     },
     SingleSong: {
       screen: SingleSong,
-    }
+    },
+    SongInAlbum: {
+      screen: SongInAlbum,
+    },
+    SearchAdvanced: {
+      screen: SearchAdvanced,
+    },
   },
   {
     navigationOptions: () => ({

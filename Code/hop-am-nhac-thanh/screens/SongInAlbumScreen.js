@@ -18,12 +18,12 @@ import {Container, Header, Item, Input, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SingleSong from '../screens/SingSongScreen';
 
-export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Hợp Âm Nhạc Thánh',
+export default class SongInAlbumScreen extends React.Component {
+  static navigationOptions = ({navigation}) => ({
+    title: navigation.state.params.name,
     // headerStyle: { backgroundColor: '#511F90' },
     // headerTitleStyle: { color: '#ffff' },
-  };
+  });
   constructor(props) {
     super(props);
     this.state = {
@@ -35,7 +35,7 @@ export default class HomeScreen extends React.Component {
   }
 componentWillMount = async () => {
   try {
-    const response = await fetch ('https://hopamnhacthanh.net/api/Search/NGUYENIT&q='+'1');
+    const response = await fetch ('https://hopamnhacthanh.net/api/Album/NGUYENIT&q=1&slug='+this.props.navigation.state.params.slug);
     const posts = await response.json ();
 
     this.setState ({loading: false, posts});
@@ -46,18 +46,17 @@ componentWillMount = async () => {
 getDataWithSearch = async (text) => {
   this.setState ({textSearch: text});
   try {
-    const response = await fetch ('https://hopamnhacthanh.net/api/Search/NGUYENIT&q='+text);
+    const response = await fetch ('https://hopamnhacthanh.net/api/Album/NGUYENIT&q='+text+'&slug='+this.props.navigation.state.params.slug);
     const posts = await response.json ();
     this.setState ({loading: false, posts});
   } catch (e) {
     
     this.setState ({loading: false, error: true});
   };
-  
 };
 renderPost = ({
     Name,
-    Lyric,
+    Number,
     Slug,
     VersionSlug
   }, i) => {
@@ -68,10 +67,9 @@ renderPost = ({
       <TouchableOpacity
               onPress={() =>
           navigate('SingleSong', { name: Name, slug: Slug, versionSlug: VersionSlug })}>
-      <Text style ={listSongStyle.getTitleText}>{Name}</Text>
+      <Text style ={listSongStyle.getTitleText}>{Number}. {Name}</Text>
       {/* <Text style ={listSongStyle.getTitleText}>{Slug}</Text>
       <Text style ={listSongStyle.getTitleText}>{VersionSlug}</Text> */}
-      <Text style ={listSongStyle.getLyricShortText}>{Lyric}</Text>
       </TouchableOpacity>
     </View>
   );
