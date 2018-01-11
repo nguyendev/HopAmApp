@@ -17,10 +17,11 @@ import listSongStyle from '../styles/listsong';
 import {Container, Header, Item, Input, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SingleSong from '../screens/SingleSongScreen';
+import SongInAuthor from '../screens/SongInAuthorScreen';
 import Global from '../Global';
-export default class ListCategoryScreen extends React.Component {
+export default class ListAuthorSongScreen extends React.Component {
   static navigationOptions = {
-    title: 'Danh mục',
+    title: 'Danh Sách Tác Giả',
     // headerStyle: { backgroundColor: '#511F90' },
     // headerTitleStyle: { color: '#ffff' },
   };
@@ -36,9 +37,10 @@ export default class ListCategoryScreen extends React.Component {
   componentWillMount = async () => {
     try {
       const url =
-        Global.BASE_URL + Global.CATEGORY_URL.ROOT + Global.CATEGORY_URL.GET_LIST;
+        Global.BASE_URL + Global.AUTHOR_SONG_URL.ROOT + Global.AUTHOR_SONG_URL.GET_LIST;
       const response = await fetch (url);
-      const posts = await response.json ();
+      const temp = await response.json();
+      const posts = temp.Result;
       this.setState ({loading: false, posts});
     } catch (e) {
       this.setState ({loading: false, error: true});
@@ -52,7 +54,7 @@ export default class ListCategoryScreen extends React.Component {
       <View key={i} style={listSongStyle.getItem}>
         <TouchableOpacity
           onPress={() =>
-            navigate ('SongInCategory', {
+            navigate ('SongInAuthor', {
               name: Name,
               slug: Slug,
             })}
@@ -77,35 +79,11 @@ export default class ListCategoryScreen extends React.Component {
       <View style={listSongStyle.container}>
         <ScrollView
           style={listSongStyle.container}
-          contentContainerStyle={listSongStyle.contentContainer}
-        >
+          contentContainerStyle={listSongStyle.contentContainer}>
           {posts.map (this.renderPost)}
         </ScrollView>
       </View>
     );
-  }
-
-  _maybeRenderDevelopmentModeWarning () {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
   }
 }
 

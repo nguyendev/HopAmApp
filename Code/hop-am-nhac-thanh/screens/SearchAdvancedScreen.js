@@ -26,6 +26,7 @@ export default class SearchAdvancedScreen extends React.Component {
       loading: true,
       error: false,
       posts: [],
+      postsNotFound: false,
       textSearch: '',
     };
   }
@@ -47,7 +48,13 @@ export default class SearchAdvancedScreen extends React.Component {
       const response = await fetch (url);
         
       const posts = await response.json ();
-      this.setState ({loading: false, posts});
+      let count = Object.keys (posts).length;
+      if (count <= 0) {
+        this.setState ({loading: false, postsNotFound: true});
+      } else {
+        this.setState ({loading: false, posts, postsNotFound: false});
+      }
+
     } catch (e) {
       this.setState ({loading: false, error: true});
     }
@@ -71,8 +78,30 @@ export default class SearchAdvancedScreen extends React.Component {
   };
 
   render () {
-    const {posts, loading, error} = this.state;
-
+    const {posts, loading, error, postsNotFound} = this.state;
+    if(postsNotFound)
+    {
+       return(
+         <View style={listSongStyle.container}>
+          <View style={styles.container}>
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.inputStyle}
+                underlineColorAndroid="transparent"
+                autoCorrect={false}
+                placeholder="Tìm kiếm tên bài hát"
+                value={this.state.textSearch}
+                onChangeText={textSearch => this.getDataWithSearch (textSearch)}
+              />
+              <Icon style={styles.ivcon} name="search" color="#000" size={20} />
+            </View>
+            <View style={{marginTop: 30,justifyContent: 'center',borderRadius: 4, borderWidth: 0.5,borderColor: '#000000',backgroundColor: '#FACE9C',color: '#0000'}}>
+                <Text style={{marginLeft: 15, marginRight: 15}}>Không tìm thấy. Vui lòng thử từ khóa khác</Text>
+            </View>
+          </View>
+        </View>
+      )
+    }
     if(loading)
     {
       return (

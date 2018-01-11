@@ -3,33 +3,48 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
-import  SingleSong from '../screens/SingSongScreen';
-import SongInAlbum from '../screens/SongInAlbumScreen';
-
+import SingleSong from '../screens/SingleSongScreen';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 import SearchAdvanced from '../screens/SearchAdvancedScreen';
 import SingleSongSimple from '../screens/SingleSongSimpleScreen';
 import ListAlbum from '../screens/ListAlbumScreen';
+import ListCategory from '../screens/ListCategoryScreen';
+import SongInAlbum from '../screens/SongInAlbumScreen';
+import SongInCategory from '../screens/SongInCategoryScreen';
+import ListAuthorSong from '../screens/ListAuthorSongScreen';
+import SongInAuthor from '../screens/SongInAuthorScreen';
 
 const RootStackNavigator = StackNavigator(
   {
     Main: {
       screen: MainTabNavigator,
     },
-    SingleSong: {
-      screen: SingleSong,
-    },
-    SongInAlbum: {
-      screen: SongInAlbum,
-    },
     SearchAdvanced: {
       screen: SearchAdvanced,
+    },
+    SingleSong: {
+      screen: SingleSong,
     },
     SingleSongSimple: {
       screen: SingleSongSimple,
     },
     ListAlbum: {
       screen: ListAlbum,
+    },
+    ListCategory: {
+      screen: ListCategory,
+    },
+    ListAuthorSong: {
+      screen: ListAuthorSong,  
+    },
+    SongInCategory: {
+      screen: SongInCategory,  
+    },
+    SongInAlbum: {
+      screen: SongInAlbum,
+    },
+    SongInAuthor: {
+      screen: SongInAuthor,
     },
   },
   {

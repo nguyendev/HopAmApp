@@ -16,7 +16,7 @@ import { MonoText } from '../components/StyledText';
 import listSongStyle from '../styles/listsong';   
 import {Container, Header, Item, Input, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import SingleSong from '../screens/SingSongScreen';
+import SingleSong from '../screens/SingleSongScreen';
 import Global from '../Global';
 export default class SongInAlbumScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({

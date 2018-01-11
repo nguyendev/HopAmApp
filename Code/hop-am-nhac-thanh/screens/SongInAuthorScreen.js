@@ -7,8 +7,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput,
   ActivityIndicator,
+  TextInput,
 } from 'react-native';
 import {WebBrowser} from 'expo';
 
@@ -18,63 +18,85 @@ import {Container, Header, Item, Input, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SingleSong from '../screens/SingleSongScreen';
 import Global from '../Global';
-export default class ListCategoryScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Danh mục',
+export default class SongInAuthorScreen extends React.Component {
+  static navigationOptions = ({navigation}) => ({
+    title: navigation.state.params.name,
     // headerStyle: { backgroundColor: '#511F90' },
     // headerTitleStyle: { color: '#ffff' },
-  };
+  });
   constructor (props) {
     super (props);
     this.state = {
       loading: true,
       error: false,
       posts: [],
-      postsNotFound: false,
+      textSearch: '',
     };
   }
   componentWillMount = async () => {
     try {
       const url =
-        Global.BASE_URL + Global.CATEGORY_URL.ROOT + Global.CATEGORY_URL.GET_LIST;
+        Global.BASE_URL +
+        Global.AUTHOR_SONG_URL.ROOT +
+        Global.AUTHOR_SONG_URL.GET_LIST_WITH_SLUG +
+        this.props.navigation.state.params.slug;
       const response = await fetch (url);
-      const posts = await response.json ();
+      const data = await response.json ();
+      const result = data.Result;
+      const posts = data.Result.ListSong;
+
       this.setState ({loading: false, posts});
     } catch (e) {
-      this.setState ({loading: false, error: true});
+      this.setState ({loading: false, error: true, url});
     }
   };
 
-  renderPost = ({Name, Slug}, i) => {
+  renderPost = ({Name, Number, Slug, VersionSlug}, i) => {
     const {navigate} = this.props.navigation;
 
     return (
       <View key={i} style={listSongStyle.getItem}>
         <TouchableOpacity
           onPress={() =>
-            navigate ('SongInCategory', {
+            navigate ('SingleSong', {
               name: Name,
               slug: Slug,
+              versionSlug: VersionSlug,
             })}
         >
-          <Text style={listSongStyle.getTitleText}>{Name}</Text>
+          <Text style={listSongStyle.getTitleText}>{Number}. {Name}</Text>
         </TouchableOpacity>
       </View>
     );
   };
 
   render () {
-    const {posts, loading, error, postsNotFound, textSearch} = this.state;
-    const {navigate} = this.props.navigation;
-    if (loading) {
-      return (
-        <View style={[styles.container1, styles.horizontal]}>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </View>
-      );
-    }
+    const {posts, loading, error} = this.state;
+
+     if (loading) {
+       return (
+         <View>
+           <ActivityIndicator animating={true} />
+         </View>
+       )
+     }
+
+    // if (error) {
+    //   return (
+    //     <View>
+    //       <Text>
+    //         Failed to load posts!
+    //       </Text>
+    //     </View>
+    //   )
+    // }
+
     return (
       <View style={listSongStyle.container}>
+        {/* <View style={{marginLeft: 10, marginRight: 10, fontSize: 16}}>
+        <Text>Thông tin tác giả: Chưa có thông tin</Text>
+        <Text>Danh sách bài hát</Text>
+        </View> */}
         <ScrollView
           style={listSongStyle.container}
           contentContainerStyle={listSongStyle.contentContainer}
@@ -83,29 +105,6 @@ export default class ListCategoryScreen extends React.Component {
         </ScrollView>
       </View>
     );
-  }
-
-  _maybeRenderDevelopmentModeWarning () {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
   }
 }
 
@@ -135,14 +134,5 @@ const styles = StyleSheet.create ({
     height: 30,
     textAlign: 'center',
     paddingTop: 7,
-  },
-  container1: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
   },
 });
