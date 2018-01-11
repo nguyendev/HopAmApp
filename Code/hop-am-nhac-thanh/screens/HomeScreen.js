@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
   TextInput,
-
+  ActivityIndicator,
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
@@ -31,14 +31,15 @@ export default class HomeScreen extends React.Component {
       error: false,
       posts: [],
       textSearch: '', 
+      postsNotFound: false,
     };
   }
 componentWillMount = async () => {
   try {
     const response = await fetch ('https://hopamnhacthanh.net/api/Search/NGUYENIT&q='+'1');
     const posts = await response.json ();
-
     this.setState ({loading: false, posts});
+
   } catch (e) {
     this.setState ({loading: false, error: true});
   }
@@ -48,7 +49,12 @@ getDataWithSearch = async (text) => {
   try {
     const response = await fetch ('https://hopamnhacthanh.net/api/Search/NGUYENIT&q='+text);
     const posts = await response.json ();
-    this.setState ({loading: false, posts});
+    let count = Object.keys(posts).length;
+    if (count <= 0) {
+      this.setState ({loading: false, postsNotFound: true});
+    } else {
+      this.setState ({loading: false, posts, postsNotFound: false});
+    }
   } catch (e) {
     
     this.setState ({loading: false, error: true});
@@ -62,7 +68,7 @@ renderPost = ({
     VersionSlug
   }, i) => {
   const { navigate } = this.props.navigation;
-
+  
   return (
     <View key = {i} style={listSongStyle.getItem}>
       <TouchableOpacity
@@ -77,30 +83,53 @@ renderPost = ({
   );
 };
 
-
-
   render() {
-    const {posts, loading, error} = this.state
+    const {posts, loading, error, postsNotFound,textSearch} = this.state
+    const {navigate} = this.props.navigation;
 
-    // if (loading) {
-    //   return (
-    //     <View>
-    //       <ActivityIndicator animating={true} />
-    //     </View>
-    //   )
-    // }
-
-    // if (error) {
-    //   return (
-    //     <View>
-    //       <Text>
-    //         Failed to load posts!
-    //       </Text>
-    //     </View>
-    //   )
-    // }
-
-
+    if(postsNotFound)
+    {
+       return(
+         <View style={listSongStyle.container}>
+          <View style={styles.container}>
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.inputStyle}
+                underlineColorAndroid="transparent"
+                autoCorrect={false}
+                placeholder="Tìm kiếm tên bài hát"
+                value={this.state.textSearch}
+                onChangeText={textSearch => this.getDataWithSearch (textSearch)}
+              />
+              <Icon style={styles.ivcon} name="search" color="#000" size={20} />
+            </View>
+            <View style={{marginTop: 30,justifyContent: 'center',borderRadius: 4, borderWidth: 0.5,borderColor: '#000000',backgroundColor: '#FACE9C',color: '#0000'}}>
+                <Text style={{margin: 10}}>Không tìm thấy! Bạn có thể thử tìm với từ khóa khác. Hoặc thử tìm kiếm nâng cao</Text>
+                <Text style={{margin: 10}}>
+                  Lưu ý: Tìm kiếm nâng cao sẽ bị giới hạn tính năng khi tìm thấy bài hát
+                </Text>
+                
+            </View>
+            <View>
+              <Text></Text>
+              <Text></Text>
+              <Button iconLeft full success onPress={() => navigate ('SearchAdvanced',{ search: textSearch, name: "Hello"})}>
+                <Icon style={{color: '#ffff'}} name="search" />
+                <Text style={{color: '#ffff'}}> Tìm kiếm nâng cao</Text>
+              </Button>
+            </View>
+          </View>
+        </View>
+      )
+    }
+    if(loading)
+    {
+      return (
+      <View style={[styles.container1, styles.horizontal]}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+      )
+    }
     return (
     
         <View style={listSongStyle.container}>
@@ -192,5 +221,14 @@ const styles = StyleSheet.create({
     height: 30, 
     textAlign: 'center',
     paddingTop: 7,
+  },
+  container1: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
   }
 });

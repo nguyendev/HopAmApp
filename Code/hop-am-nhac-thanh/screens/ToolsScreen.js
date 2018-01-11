@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container,Content, Header, Item, Input,Text, Button, Icon} from 'native-base';
 import SearchAdvanced from '../screens/SearchAdvancedScreen';
-
+import ListAlbum from '../screens/ListAlbumScreen';
 export default class ToolsScreen extends React.Component {
    static navigationOptions = {
      title: 'Tính năng',
@@ -37,18 +37,26 @@ export default class ToolsScreen extends React.Component {
     // const {posts, loading, error} = this.state;
     return (
       <Container>
-         
-        <Content>
-          <Text></Text>
-          <Button iconLeft full success onPress={() =>
+        <Content style={{marginLeft:30, marginRight:30}}>
+          <Button style={{marginBottom: 20, marginTop: 20}} iconLeft block success onPress={() =>
             navigate ('SearchAdvanced')}>
             <Icon name='ios-search'/>
             <Text>Tìm kiếm nâng cao</Text>
           </Button>
-          <Text></Text>
-          <Button iconLeft full success>
+          <Button style={{marginBottom: 20}} iconLeft block info onPress={() =>
+            navigate ('ListAlbum')}>
             <Icon name="ios-search" />
-            <Text>Tìm kiếm nâng cao</Text>
+            <Text>Album</Text>
+          </Button>
+          <Button style={{marginBottom: 20}} iconLeft block danger onPress={() =>
+            navigate ('ListAlbum')}>
+            <Icon name="ios-search" />
+            <Text>Danh mục</Text>
+          </Button>
+          <Button style={{marginBottom: 20}} iconLeft block warning onPress={() =>
+            navigate ('ListAlbum')}>
+            <Icon name="ios-search" />
+            <Text>Ca sỹ</Text>
           </Button>
         </Content>
       </Container>

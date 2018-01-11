@@ -8,6 +8,8 @@ import SongInAlbum from '../screens/SongInAlbumScreen';
 
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 import SearchAdvanced from '../screens/SearchAdvancedScreen';
+import SingleSongSimple from '../screens/SingleSongSimpleScreen';
+import ListAlbum from '../screens/ListAlbumScreen';
 
 const RootStackNavigator = StackNavigator(
   {
@@ -22,6 +24,12 @@ const RootStackNavigator = StackNavigator(
     },
     SearchAdvanced: {
       screen: SearchAdvanced,
+    },
+    SingleSongSimple: {
+      screen: SingleSongSimple,
+    },
+    ListAlbum: {
+      screen: ListAlbum,
     },
   },
   {

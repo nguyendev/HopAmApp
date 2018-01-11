@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex:1,
-    height: 1500,
+    height: 2000,
     marginTop: (Platform.OS) === 'ios' ? 20 : 0
  }
 });
