@@ -1,6 +1,6 @@
 import React from 'react';
 import 'react-native';
-
+import Global from '../Global';
 import singleSongStyle from '../styles/singlesong';
 import {
   Container,
@@ -37,9 +37,8 @@ export default class SingleSongSimpleScreen extends React.Component {
   
   render () {
     const {loading, error} = this.state;
-    let urlSong =
-    'https://hopamnhacthanh.net/searchAdvenced/mobile/q=' +
-    this.props.navigation.state.params.url;
+    let urlSong = 
+    Global.BASE_URL+Global.WEB_VIEW_URL.SEARCHADVENCED + this.props.navigation.state.params.url;
     return (
       <Container>
         {/* <Header /> */}

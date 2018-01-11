@@ -4,6 +4,7 @@ import {Container, Header, Tab, Tabs} from 'native-base';
 import { ScrollView, StyleSheet,View,Text, TouchableOpacity } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import listSongStyle from '../styles/listsong';
+import Global from '../Global';
 export default class ListSongScreen extends React.Component {
   static navigationOptions = {
     title: 'Bài hát',
@@ -21,9 +22,8 @@ export default class ListSongScreen extends React.Component {
 componentWillMount = async () => {
 
   try {
-    const response = await fetch (
-      'https://hopamnhacthanh.net/api/Song/NGUYENIT/getPopulars'
-    );
+    const url = Global.BASE_URL+Global.SONG_URL.ROOT+Global.SONG_URL.GET_LIST_POPULARS;
+    const response = await fetch (url);
     const songPopulars = await response.json ();
 
     this.setState ({loading: false, songPopulars});
@@ -32,9 +32,8 @@ componentWillMount = async () => {
   }
 
   try {
-    const response = await fetch (
-      'https://hopamnhacthanh.net/api/Song/NGUYENIT/getNews'
-    );
+    const url = Global.BASE_URL+Global.SONG_URL.ROOT+Global.SONG_URL.GET_LIST_NEWS;
+    const response = await fetch (url);
     const songNews = await response.json ();
 
     this.setState ({loading: false, songNews});
@@ -43,9 +42,8 @@ componentWillMount = async () => {
   }
   
   try {
-    const response = await fetch (
-      'https://hopamnhacthanh.net/api/Album/NGUYENIT/getList'
-    );
+    const url = Global.BASE_URL+Global.ALBUM_URL.ROOT+Global.ALBUM_URL.GET_LIST;
+    const response = await fetch (url);
     const albums = await response.json ();
 
     this.setState ({loading: false, albums});

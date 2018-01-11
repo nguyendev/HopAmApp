@@ -17,7 +17,7 @@ import listSongStyle from '../styles/listsong';
 import {Container, Header, Item, Input, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SingleSong from '../screens/SingSongScreen';
-import Global from '../Global';
+const GLOBAL = require('../Globals');
 export default class ListAlbumScreen extends React.Component {
   static navigationOptions = {
     title: 'Album',
@@ -35,7 +35,7 @@ export default class ListAlbumScreen extends React.Component {
   }
 componentWillMount = async () => {
   try {
-    const url = Global.BASE_URL+Global.ALBUM_URL.ROOT+Global.ALBUM_URL.GET_LIST;
+    const url = Global.BASE_URL+Global.CATEGORY_URL.ROOT+Global.CATEGORY_URL.GET_LIST;
     const response = await fetch (url);
     const posts = await response.json ();
     this.setState ({loading: false, posts});

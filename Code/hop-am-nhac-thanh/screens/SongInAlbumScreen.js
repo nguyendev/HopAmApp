@@ -17,7 +17,7 @@ import listSongStyle from '../styles/listsong';
 import {Container, Header, Item, Input, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SingleSong from '../screens/SingSongScreen';
-
+import Global from '../Global';
 export default class SongInAlbumScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     title: navigation.state.params.name,
@@ -30,23 +30,32 @@ export default class SongInAlbumScreen extends React.Component {
       loading: true,
       error: false,
       posts: [],
-      textSearch: '', 
+      textSearch: '',
     };
   }
 componentWillMount = async () => {
   try {
-    const response = await fetch ('https://hopamnhacthanh.net/api/Album/NGUYENIT&q=1&slug='+this.props.navigation.state.params.slug);
+    const url = Global.BASE_URL
+    + Global.ALBUM_URL.ROOT
+    + Global.ALBUM_URL.GET_SEARCH_WITH_SLUG+'1'
+    + Global.ALBUM_URL.SLUG
+    +this.props.navigation.state.params.slug;
+    const response = await fetch (url);
     const posts = await response.json ();
 
     this.setState ({loading: false, posts});
   } catch (e) {
-    this.setState ({loading: false, error: true});
+    this.setState ({loading: false, error: true, url});
   }
 };
 getDataWithSearch = async (text) => {
   this.setState ({textSearch: text});
   try {
-    const response = await fetch ('https://hopamnhacthanh.net/api/Album/NGUYENIT&q='+text+'&slug='+this.props.navigation.state.params.slug);
+    const url = Global.BASE_URL
+    + Global.ALBUM_URL.GET_SEARCH_WITH_SLUG+text
+    + Global.ALBUM_URL.SLUG
+    +this.props.navigation.state.params.slug;
+    const response = await fetch (url);
     const posts = await response.json ();
     this.setState ({loading: false, posts});
   } catch (e) {
@@ -128,39 +137,6 @@ renderPost = ({
         </View>
     );
   }
-
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
-
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
 }
 
 const styles = StyleSheet.create({

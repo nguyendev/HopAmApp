@@ -1,7 +1,7 @@
 import React from 'react';
 import {
 } from 'react-native';
-
+import Global from '../Global';
 import singleSongStyle from '../styles/singlesong';
 import {
   Container,
@@ -71,8 +71,8 @@ export default class SingleSongScreen extends React.Component {
       const slug = this.props.navigation.state.params.slug;
       const versionSlug = this.props.navigation.state.params.versionSlug;
       switch (this.state.selectedTab) {
-        case 'song':
-          let urlSong = 'https://hopamnhacthanh.net/bai-hat/fullscreen/'
+        case 'song':       
+          let urlSong = Global.BASE_URL+Global.WEB_VIEW_URL.SIMPLE_SONG_WITH_SLUG_VERSION
           +slug + '/' + versionSlug;
           return (
             <WebView style={styles.WebViewStyle} 
@@ -84,8 +84,7 @@ export default class SingleSongScreen extends React.Component {
           );
           break;
         case 'audio':
-        let urlAudio = 'https://hopamnhacthanh.net/audio/mobile/'
-          +slug;
+        let urlAudio = Global.BASE_URL+Global.WEB_VIEW_URL.AUDIO + slug;
           return (
             <WebView style={styles.WebViewStyle} 
                 scalesPageToFit={true}
@@ -96,8 +95,7 @@ export default class SingleSongScreen extends React.Component {
           );
           break;
         case 'sheet':
-          let urlSheet = 'https://hopamnhacthanh.net/sheet/mobile/'
-          +slug;
+          let urlSheet = Global.BASE_URL+Global.WEB_VIEW_URL.SHEET+ slug;
           return (
             <WebView style={styles.WebViewStyle} 
                 scalesPageToFit={true}
@@ -108,8 +106,7 @@ export default class SingleSongScreen extends React.Component {
           );
           break;
         case 'video':
-          let urlVideo = 'https://hopamnhacthanh.net/video/mobile/'
-          +slug;
+          let urlVideo = Global.BASE_URL+Global.WEB_VIEW_URL.VIDEO+ slug;
           return (
             <WebView style={styles.WebViewStyle} 
                 scalesPageToFit={true}

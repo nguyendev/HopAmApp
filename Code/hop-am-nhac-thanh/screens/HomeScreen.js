@@ -17,7 +17,7 @@ import listSongStyle from '../styles/listsong';
 import {Container, Header, Item, Input, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SingleSong from '../screens/SingSongScreen';
-
+import Global from '../Global';
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Hợp Âm Nhạc Thánh',
@@ -36,7 +36,8 @@ export default class HomeScreen extends React.Component {
   }
 componentWillMount = async () => {
   try {
-    const response = await fetch ('https://hopamnhacthanh.net/api/Search/NGUYENIT&q='+'1');
+    const url = Global.BASE_URL+Global.SEARCH_URL.ROOT+Global.SEARCH_URL.GET_SEARCH_WITH_SEARCH_STRING+'1';
+    const response = await fetch (url);
     const posts = await response.json ();
     this.setState ({loading: false, posts});
 
@@ -47,7 +48,7 @@ componentWillMount = async () => {
 getDataWithSearch = async (text) => {
   this.setState ({textSearch: text});
   try {
-    const response = await fetch ('https://hopamnhacthanh.net/api/Search/NGUYENIT&q='+text);
+    const response = await fetch (Global.BASE_URL+Global.SEARCH_URL.ROOT+Global.SEARCH_URL.GET_SEARCH_WITH_SEARCH_STRING+text);
     const posts = await response.json ();
     let count = Object.keys(posts).length;
     if (count <= 0) {

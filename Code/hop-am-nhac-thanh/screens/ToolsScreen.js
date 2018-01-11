@@ -2,6 +2,7 @@ import React from 'react';
 import {Container,Content, Header, Item, Input,Text, Button, Icon} from 'native-base';
 import SearchAdvanced from '../screens/SearchAdvancedScreen';
 import ListAlbum from '../screens/ListAlbumScreen';
+import Global from '../Global';
 export default class ToolsScreen extends React.Component {
    static navigationOptions = {
      title: 'Tính năng',

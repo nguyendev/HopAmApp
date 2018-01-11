@@ -13,7 +13,7 @@ import {
 import listSongStyle from '../styles/listsong';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SingleSongSimple from '../screens/SingleSongSimpleScreen';
-
+import Global from '../Global';
 export default class SearchAdvancedScreen extends React.Component {
   static navigationOptions = {
     title: 'Tìm kiếm nâng cao',
@@ -31,10 +31,8 @@ export default class SearchAdvancedScreen extends React.Component {
   }
    componentWillMount = async () => {
       try {
-        const {textSearch} = this.state;
-        let response = await fetch (
-          'https://hopamnhacthanh.net/api/SearchAdvanced/NGUYENIT/q=Chua'
-          );
+        const url = Global.BASE_URL+Global.SEARCH_ADVANCED_URL.ROOT+Global.SEARCH_ADVANCED_URL.GET_SEARCH+'Chúa';
+        const response = await fetch (url);
         
         const posts = await response.json ();
         this.setState ({loading: false, posts});
@@ -45,9 +43,9 @@ export default class SearchAdvancedScreen extends React.Component {
   getDataWithSearch = async text => {
     this.setState ({textSearch: text});
     try {
-      const response = await fetch (
-        'https://hopamnhacthanh.net/api/SearchAdvanced/NGUYENIT/q=' + text
-      );
+      const url = Global.BASE_URL+Global.SEARCH_ADVANCED_URL.ROOT+Global.SEARCH_ADVANCED_URL.GET_SEARCH+text;
+      const response = await fetch (url);
+        
       const posts = await response.json ();
       this.setState ({loading: false, posts});
     } catch (e) {
